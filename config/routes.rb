@@ -1,17 +1,14 @@
 WorldCup::Application.routes.draw do
-  resources :stadia
-
-  resources :teams
-
-  resources :players
-
-  resources :groups
-
-  get "stadium/show"
-  get "stadium/index"
-  get "stadium/create"
-  get "stadium/update"
-  get "stadium/destroy"
+  
+  resources :stadia,	defaults: {format: :json}
+  resources :teams,	defaults: {format: :json}
+  resources :players,	defaults: {format: :json}
+  resources :groups,	defaults: {format: :json}
+  
+  match '/404' => 'errors#not_found',      via: [:get, :post, :delete, :put]
+  match '/400' => 'errors#bad_request',    via: [:get, :post, :delete, :put]
+  match '/500' => 'errors#internal_error', via: [:get, :post, :delete, :put]
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

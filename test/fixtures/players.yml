@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  birthday: 2014-02-18
+  height: 1
+  weight: 1
+  squad_number: 1
+  photo_url: MyString
+  team_id: 
+
+two:
+  name: MyString
+  birthday: 2014-02-18
+  height: 1
+  weight: 1
+  squad_number: 1
+  photo_url: MyString
+  team_id: 

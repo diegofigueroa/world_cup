@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  local_id: 
+  visitor_id: 
+  date: 2014-02-23 18:14:57
+  stage: MyString
+  played: false
+  score: MyString
+  winner_id: 
+  referee: MyString
+  stadium_id: 
+
+two:
+  local_id: 
+  visitor_id: 
+  date: 2014-02-23 18:14:57
+  stage: MyString
+  played: false
+  score: MyString
+  winner_id: 
+  referee: MyString
+  stadium_id: 

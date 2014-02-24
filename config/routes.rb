@@ -1,5 +1,6 @@
 WorldCup::Application.routes.draw do
   
+  resources :matches,	defaults: {format: :json}
   resources :stadia,	defaults: {format: :json}
   resources :teams,	defaults: {format: :json}
   resources :players,	defaults: {format: :json}

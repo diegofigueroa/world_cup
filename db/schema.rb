@@ -11,13 +11,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140221011655) do
+ActiveRecord::Schema.define(version: 20140224001457) do
 
   create_table "groups", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "matches", force: true do |t|
+    t.datetime "date"
+    t.integer  "stage"
+    t.string   "referee"
+    t.boolean  "played",        default: false
+    t.integer  "local_score",   default: 0
+    t.integer  "visitor_score", default: 0
+    t.integer  "local_id"
+    t.integer  "visitor_id"
+    t.integer  "winner_id"
+    t.integer  "loser_id"
+    t.integer  "group_id"
+    t.integer  "stadium_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "matches", ["group_id"], name: "index_matches_on_group_id"
+  add_index "matches", ["local_id"], name: "index_matches_on_local_id"
+  add_index "matches", ["loser_id"], name: "index_matches_on_loser_id"
+  add_index "matches", ["stadium_id"], name: "index_matches_on_stadium_id"
+  add_index "matches", ["visitor_id"], name: "index_matches_on_visitor_id"
+  add_index "matches", ["winner_id"], name: "index_matches_on_winner_id"
 
   create_table "players", force: true do |t|
     t.string   "name"

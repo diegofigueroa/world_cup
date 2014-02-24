@@ -1,7 +1,7 @@
 class StadiaController < ApplicationController
   
   def index
-    @stadia = Stadium.all.order(id: :desc)
+    @stadia = Stadium.all.order(:name)
     respond_with @stadia
   end
   

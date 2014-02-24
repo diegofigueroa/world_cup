@@ -1,6 +1,6 @@
 class PlayersController < ApplicationController
   def index
-    @players = Player.all.order(id: :desc)
+    @players = Player.all.order(:name)
     respond_with @players
   end
   

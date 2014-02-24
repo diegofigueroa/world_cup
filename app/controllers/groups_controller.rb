@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   def index
-    @groups = Group.all.order(id: :desc)
-    respond_with @group
+    @groups = Group.all.includes(:teams).order(:name)
+    respond_with @groups
   end
   
   def show

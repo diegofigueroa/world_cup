@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
   def index
-    @teams = Team.all.order(id: :desc)
+    @teams = Team.all.order(:name)
     respond_with @teams
   end
   

@@ -17,6 +17,20 @@ class MatchesController < ApplicationController
     respond_with @match, status: :created, location: @match
   end
   
+  def start
+    @match = Match.find params[:id]
+    @match.start!
+    
+    respond_with @match, status: :ok
+  end
+  
+  def finish
+    @match = Match.find params[:id]
+    @match.finish!
+    
+    respond_with @match, status: :ok
+  end
+  
   def update
     @match = Match.find params[:id]
     @match.update_attributes!(match_params)

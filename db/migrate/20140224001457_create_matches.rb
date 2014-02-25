@@ -2,9 +2,11 @@ class CreateMatches < ActiveRecord::Migration
   def change
     create_table :matches do |t|
       t.datetime :date
-      t.integer :stage
       t.string :referee
-      t.boolean :played, default: false
+      
+      t.integer :stage, default: 1
+      t.integer :state, default: 1
+      
       t.integer :local_score, default: 0
       t.integer :visitor_score, default: 0
       

@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(version: 20140224001457) do
 
   create_table "matches", force: true do |t|
     t.datetime "date"
-    t.integer  "stage"
     t.string   "referee"
+    t.integer  "stage",         default: 1
     t.integer  "state",         default: 1
     t.integer  "local_score",   default: 0
     t.integer  "visitor_score", default: 0

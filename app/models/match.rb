@@ -42,7 +42,7 @@ class Match < ActiveRecord::Base
     self.save!
   end
   
-  protected
+  #protected
   
   def mutually_excluding_state
     if state.size > 1
@@ -65,13 +65,13 @@ class Match < ActiveRecord::Base
   end
   
   def startable?
-    unless scheduled?
+    unless scheduled? || new_record?
       self.errors[:state] << "should be 'scheduled' in order to change to 'in_progress'"
     end
   end
   
   def finishable?
-    unless in_progress?
+    unless in_progress? || new_record?
       self.errors[:state] << "should be 'in_progress' in order to change to 'finished'"
     end
   end

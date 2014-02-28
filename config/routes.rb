@@ -1,16 +1,17 @@
 WorldCup::Application.routes.draw do
   
-  resources :matches,	defaults: {format: :json} do
+  resources :matches, except: [:new, :edit], defaults: {format: :json} do
     member do
       put 'start'
       put 'finish'
     end
+    resources :goals, only: [:create, :destroy, :update]
   end
   
-  resources :stadia,	defaults: {format: :json}
-  resources :teams,	defaults: {format: :json}
-  resources :players,	defaults: {format: :json}
-  resources :groups,	defaults: {format: :json}
+  resources :stadia,  except: [:new, :edit],  defaults: {format: :json}, path: 'stadiums'
+  resources :teams,   except: [:new, :edit],  defaults: {format: :json}
+  resources :players, except: [:new, :edit],  defaults: {format: :json}
+  resources :groups,  except: [:new, :edit],  defaults: {format: :json}
   
   match '/404' => 'errors#not_found',      via: [:get, :post, :delete, :put]
   match '/400' => 'errors#bad_request',    via: [:get, :post, :delete, :put]

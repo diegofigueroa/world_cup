@@ -1,6 +1,8 @@
 class MatchSerializer < ActiveModel::Serializer
   attributes :group, :teams, :score, :stadium, :stage, :state, :date, :url
   
+  has_many :goals
+  
   def group
     { name: object.group.name }
   end
@@ -30,10 +32,14 @@ class MatchSerializer < ActiveModel::Serializer
   end
   
   def include_score?
-    object.state? :in_progress
+    !object.state? :scheduled
   end
   
   def include_group?
-    !object.stage? :group
+    object.stage? :group
+  end
+  
+  def include_goals?
+    !object.state? :scheduled
   end
 end

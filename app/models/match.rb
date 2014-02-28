@@ -11,6 +11,8 @@ class Match < ActiveRecord::Base
   belongs_to :group
   belongs_to :stadium
   
+  has_many :goals
+  
   validates :date, presence: true
   validates :stadium, presence: true
   validates :stage, presence: true

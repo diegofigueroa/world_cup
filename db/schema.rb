@@ -11,7 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140224001457) do
+ActiveRecord::Schema.define(version: 20140228004130) do
+
+  create_table "goals", force: true do |t|
+    t.string   "scorer"
+    t.integer  "minute"
+    t.boolean  "own_goal",   default: false
+    t.boolean  "penalty",    default: false
+    t.integer  "team_id"
+    t.integer  "match_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "goals", ["match_id"], name: "index_goals_on_match_id"
+  add_index "goals", ["team_id"], name: "index_goals_on_team_id"
 
   create_table "groups", force: true do |t|
     t.string   "name"

@@ -56,7 +56,7 @@ class Match < ActiveRecord::Base
     self.save!
   end
   
-  #protected
+  private
   
   def mutually_excluding_state
     if state.size > 1

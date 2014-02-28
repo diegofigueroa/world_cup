@@ -21,23 +21,37 @@ class Match < ActiveRecord::Base
   validate :mutually_excluding_state, :mutually_excluding_stage, :not_finished, :startable?, :finishable?
   
   def in_progress?
-    state? :in_progress
+    if state_changed? 
+      state_was == 2
+    else
+      state? :in_progress
+    end
   end
   
   def scheduled?
-    state? :scheduled
+    if state_changed? 
+      state_was == 1
+    else
+      state? :scheduled
+    end
   end
   
   def finished?
-    state? :finished
+    if state_changed? 
+      state_was == 4
+    else
+      state?(:finished)
+    end
   end
   
   def start!
+    @action = :start
     self.state = :in_progress
     self.save!
   end
   
   def finish!
+    @action = :finish
     self.state = :finished
     self.save!
   end
@@ -59,20 +73,28 @@ class Match < ActiveRecord::Base
   def not_finished
     if changed? && finished?
       self.changed_attributes.each do |name, value|
-	self.errors[name] << 'cannot be changed once the match has finished'
+        self.errors[name] << 'cannot be changed once the match has finished'
       end
     end
   end
   
   def startable?
-    unless scheduled? || new_record?
-      self.errors[:state] << "should be 'scheduled' in order to change to 'in_progress'"
+    if @action == :start
+      if scheduled? || new_record?
+          true
+      else
+        self.errors[:state] << "should be 'scheduled' in order to change to 'in_progress'"
+      end
     end
   end
   
   def finishable?
-    unless in_progress? || new_record?
-      self.errors[:state] << "should be 'in_progress' in order to change to 'finished'"
+    if @action == :finish
+      if in_progress? || new_record?
+          true
+      else
+        self.errors[:state] << "should be 'in_progress' in order to change to 'finished'"
+      end
     end
   end
 end

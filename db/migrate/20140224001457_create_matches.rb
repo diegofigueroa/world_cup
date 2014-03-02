@@ -9,6 +9,7 @@ class CreateMatches < ActiveRecord::Migration
       
       t.integer :local_score, default: 0
       t.integer :visitor_score, default: 0
+      t.boolean :draw, default: false
       
       t.references :local, index: true
       t.references :visitor, index: true
@@ -16,7 +17,7 @@ class CreateMatches < ActiveRecord::Migration
       t.references :loser, index: true
       t.references :group, index: true
       t.references :stadium, index: true
-
+      
       t.timestamps
     end
   end

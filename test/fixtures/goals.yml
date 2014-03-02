@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  scorer: MyString
+  minute: 1
+  own_goal: false
+  penalty: false
+  team_id: 
+  match_id: 
+
+two:
+  scorer: MyString
+  minute: 1
+  own_goal: false
+  penalty: false
+  team_id: 
+  match_id: 

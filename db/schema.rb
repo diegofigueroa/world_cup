@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140228004130) do
+ActiveRecord::Schema.define(version: 20140301005427) do
 
   create_table "goals", force: true do |t|
     t.string   "scorer"
@@ -27,6 +27,23 @@ ActiveRecord::Schema.define(version: 20140228004130) do
   add_index "goals", ["match_id"], name: "index_goals_on_match_id"
   add_index "goals", ["team_id"], name: "index_goals_on_team_id"
 
+  create_table "group_standings", force: true do |t|
+    t.integer  "points",        default: 0
+    t.integer  "played",        default: 0
+    t.integer  "wins",          default: 0
+    t.integer  "loses",         default: 0
+    t.integer  "draws",         default: 0
+    t.integer  "goals_scored",  default: 0
+    t.integer  "goals_against", default: 0
+    t.integer  "team_id"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "group_standings", ["group_id"], name: "index_group_standings_on_group_id"
+  add_index "group_standings", ["team_id"], name: "index_group_standings_on_team_id"
+
   create_table "groups", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -40,6 +57,7 @@ ActiveRecord::Schema.define(version: 20140228004130) do
     t.integer  "state",         default: 1
     t.integer  "local_score",   default: 0
     t.integer  "visitor_score", default: 0
+    t.boolean  "draw",          default: false
     t.integer  "local_id"
     t.integer  "visitor_id"
     t.integer  "winner_id"
@@ -87,7 +105,6 @@ ActiveRecord::Schema.define(version: 20140228004130) do
     t.string   "flag_url"
     t.string   "photo_url"
     t.text     "description"
-    t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

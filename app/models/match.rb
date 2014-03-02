@@ -22,6 +22,8 @@ class Match < ActiveRecord::Base
   
   validate :mutually_excluding_state, :mutually_excluding_stage, :not_finished, :startable?, :finishable?
   
+  after_save :update_group_standings
+  
   def in_progress?
     if state_changed? 
       state_was == 2
@@ -31,7 +33,7 @@ class Match < ActiveRecord::Base
   end
   
   def scheduled?
-    if state_changed? 
+    if state_changed?
       state_was == 1
     else
       state? :scheduled
@@ -39,7 +41,7 @@ class Match < ActiveRecord::Base
   end
   
   def finished?
-    if state_changed? 
+    if state_changed?
       state_was == 4
     else
       state?(:finished)
@@ -55,10 +57,21 @@ class Match < ActiveRecord::Base
   def finish!
     @action = :finish
     self.state = :finished
+    
+    if local_score > visitor_score
+      self.winner = local
+      self.loser = visitor
+    elsif local_score < visitor_score
+      self.winner = visitor
+      self.loser = local
+    else
+      self.draw = true
+    end
+    
     self.save!
   end
   
-  private
+  #private
   
   def mutually_excluding_state
     if state.size > 1
@@ -99,4 +112,34 @@ class Match < ActiveRecord::Base
       end
     end
   end
+  
+  def update_group_standings
+    if state?(:finished) && stage?(:group)
+      if self.draw?
+        [self.local, self.visitor].each do |team|
+          team.group_standing.increment! :points
+          team.group_standing.increment! :draws
+        end
+      else
+        winner.group_standing.increment! :wins
+        winner.group_standing.points += 3
+        winner.group_standing.save!
+        
+        loser.group_standing.increment! :loses
+      end
+      
+      local.group_standing.goals_scored += local_score
+      local.group_standing.goals_against += visitor_score
+      local.group_standing.save!
+      
+      visitor.group_standing.goals_scored += visitor_score
+      visitor.group_standing.goals_against += local_score
+      visitor.group_standing.save!
+      
+      [self.local, self.visitor].each do |team|
+        team.group_standing.increment! :played
+      end
+    end
+  end
+  
 end

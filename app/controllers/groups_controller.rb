@@ -1,12 +1,17 @@
 class GroupsController < ApplicationController
   def index
-    @groups = Group.all.includes(:teams).order(:name)
+    @groups = Group.all.includes(:teams, :standings).order(:name)
     respond_with @groups
   end
   
   def show
-    @group = Group.find params[:id]
+    @group = Group.where(name: params[:id].upcase).first
     respond_with @group
+  end
+  
+  def matches
+    @group = Group.where(name: params[:id].upcase).first
+    respond_with @group.matches
   end
   
   def create
@@ -18,14 +23,14 @@ class GroupsController < ApplicationController
   end
   
   def update
-    @group = Group.find params[:id]
+    @group = Group.where(name: params[:id].upcase).first
     @group.update_attributes!(group_params)
     
     respond_with @group, status: :ok
   end
   
   def destroy
-    @group = Group.find params[:id]
+    @group = Group.where(name: params[:id].upcase).first
     if @group.destroy
       render json: {status: 'ok'}, status: :ok
     else

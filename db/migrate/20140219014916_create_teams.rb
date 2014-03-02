@@ -6,7 +6,6 @@ class CreateTeams < ActiveRecord::Migration
       t.string :flag_url
       t.string :uniform_url
       t.text :description
-      t.references :group
       
       t.timestamps
     end

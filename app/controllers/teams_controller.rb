@@ -5,8 +5,18 @@ class TeamsController < ApplicationController
   end
   
   def show
-    @team = Team.find params[:id]
+    @team = Team.where(name: params[:id].capitalize).first
     respond_with @team
+  end
+  
+  def matches
+    @team = Team.where(name: params[:id].capitalize).first
+    respond_with @team.matches
+  end
+  
+  def goals
+    @team = Team.where(name: params[:id].capitalize).first
+    respond_with @team.goals
   end
   
   def create
@@ -18,14 +28,14 @@ class TeamsController < ApplicationController
   end
   
   def update
-    @team = Team.find params[:id]
+    @team = Team.where(name: params[:id].capitalize).first
     @team.update_attributes!(team_params)
     
     respond_with @team, status: :ok
   end
   
   def destroy
-    @team = Team.find params[:id]
+    @team = Team.where(name: params[:id].capitalize).first
     if @team.destroy
       render json: {status: 'ok'}, status: :ok
     else

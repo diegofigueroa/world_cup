@@ -12,6 +12,10 @@ class GroupSerializer < ActiveModel::Serializer
     group_url(object)
   end
   
+  def include_teams?
+    !scope.params[:hide].try(:member?, 'teams')
+  end
+  
   def include_matches?
     scope.params[:embed].try(:member?, 'matches')
   end

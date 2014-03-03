@@ -1,5 +1,6 @@
 WorldCup::Application.routes.draw do
   
+  resources :group_standings, only: [:index],  defaults: {format: :json}, path: 'standings'
   resources :players, except: [:new, :edit],  defaults: {format: :json}
   resources :stadia,  except: [:new, :edit],  defaults: {format: :json}, path: 'stadiums'
   

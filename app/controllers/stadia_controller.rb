@@ -1,7 +1,9 @@
 class StadiaController < ApplicationController
   
+  after_action only: [:index]   { |c| c.paginate :stadia }
+  
   def index
-    @stadia = Stadium.all.order(:name)
+    @stadia = Stadium.all.search(params[:q]).result.page(params[:page]).order(:name)
     respond_with @stadia
   end
   

@@ -1,6 +1,9 @@
 class MatchesController < ApplicationController
+  
+  after_action only: [:index]   { |c| c.paginate :matches }
+  
   def index
-    @matches = Match.all.includes(:local, :visitor, :stadium).order(:date)
+    @matches = Match.all.includes(:local, :visitor, :stadium).search(params[:q]).result.page(params[:page]).order(:date)
     respond_with @matches
   end
   

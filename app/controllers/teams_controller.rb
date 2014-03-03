@@ -1,22 +1,32 @@
 class TeamsController < ApplicationController
+  
+  after_action only: [:index]   { |c| c.paginate :teams }
+  after_action only: [:matches] { |c| c.paginate :matches }
+  after_action only: [:goals]   { |c| c.paginate :goals }
+  
   def index
-    @teams = Team.all.order(:name)
+    @teams = Team.all.includes(:group, :local_matches, :visitor_matches, :goals).search(params[:q]).result.page(params[:page]).order(:name)
     respond_with @teams
   end
   
   def show
     @team = Team.where(name: params[:id].capitalize).first
+    
     respond_with @team
   end
   
   def matches
-    @team = Team.where(name: params[:id].capitalize).first
-    respond_with @team.matches
+    team = Team.where(name: params[:id].capitalize).first
+    @matches = team.matches.search(params[:q]).result.page(params[:page])
+    
+    respond_with @matches
   end
   
   def goals
-    @team = Team.where(name: params[:id].capitalize).first
-    respond_with @team.goals
+    team = Team.where(name: params[:id].capitalize).first
+    @goals = team.goals.search(params[:q]).result.page(params[:page])
+    
+    respond_with @goals
   end
   
   def create

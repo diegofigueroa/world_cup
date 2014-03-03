@@ -2,12 +2,21 @@ class GroupSerializer < ActiveModel::Serializer
   attributes :name, :teams, :url
   
   has_many :standings
+  has_many :matches
   
   def teams
-    object.teams.collect{|t| t.name }
+    object.teams.collect{|t| {name: t.name, url: team_url(t)} }
   end
   
   def url
     group_url(object)
+  end
+  
+  def include_matches?
+    scope.params[:embed].try(:member?, 'matches')
+  end
+  
+  def include_standings?
+    scope.params[:embed].try(:member?, 'standings')
   end
 end

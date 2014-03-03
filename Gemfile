@@ -6,6 +6,8 @@ gem 'rails', '4.0.2'
 
 gem 'active_model_serializers'
 gem 'bitmask_attributes'
+gem 'kaminari'
+gem 'ransack'
 
 group :development do
   # Use sqlite3 as the database for Active Record

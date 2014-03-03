@@ -20,7 +20,7 @@ class Team < ActiveRecord::Base
   end
   
   def matches
-    local_matches + visitor_matches
+    Kaminari.paginate_array(local_matches + visitor_matches)
   end
   
 end

@@ -1,6 +1,9 @@
 class GroupsController < ApplicationController
+  
+  after_action only: [:index]   { |c| c.paginate :groups }
+  
   def index
-    @groups = Group.all.includes(:teams, :standings).order(:name)
+    @groups = Group.all.includes(:teams, :standings, :matches).search(params[:q]).result.page(params[:page]).order(:name)
     respond_with @groups
   end
   
@@ -10,8 +13,10 @@ class GroupsController < ApplicationController
   end
   
   def matches
-    @group = Group.where(name: params[:id].upcase).first
-    respond_with @group.matches
+    group = Group.where(name: params[:id].upcase).first
+    @matches = group.matches.search(params[:q]).result.page(params[:page])
+    
+    respond_with @matches
   end
   
   def create

@@ -9,7 +9,7 @@ WorldCup::Application.routes.draw do
       put 'start'
       put 'finish'
     end
-    resources :goals, only: [:create, :destroy, :update]
+    resources :goals, only: [:index, :create, :destroy, :update]
   end
   resources :teams,   except: [:new, :edit],  defaults: {format: :json} do
     member do

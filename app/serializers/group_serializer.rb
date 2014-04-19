@@ -1,5 +1,5 @@
 class GroupSerializer < ActiveModel::Serializer
-  attributes :name, :teams, :url
+  attributes :name, :teams, :standings, :matches, :url
   
   has_many :standings
   has_many :matches

@@ -1,5 +1,5 @@
 class TeamSerializer < ActiveModel::Serializer
-  attributes :name, :group, :description, :coach, :matches, :flag_url, :photo_url, :goals_url, :matches_url, :url
+  attributes :name, :group, :description, :coach, :matches, :goals, :flag_url, :photo_url, :goals_url, :matches_url, :url
   
   has_many :goals, :matches
   

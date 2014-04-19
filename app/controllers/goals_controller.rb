@@ -1,11 +1,15 @@
 class GoalsController < ApplicationController
   
+  def index
+    @goals = Goal.all.includes(:team).where(match_id: params[:match_id]).search(params[:q]).result.page(params[:page]).order(:minute)
+    respond_with @goals
+  end
+  
   def create
     params[:goal] ||= {}
     
     if name = params[:goal][:team]
       t = Team.where(name: name.capitalize).first
-      p t
       if t
         params[:goal][:team_id] = t.id 
         params[:goal][:team] = nil

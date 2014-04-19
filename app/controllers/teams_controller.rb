@@ -17,7 +17,7 @@ class TeamsController < ApplicationController
   
   def matches
     team = Team.where(name: params[:id].capitalize).first
-    @matches = team.matches.search(params[:q]).result.page(params[:page])
+    @matches = team.matches.page(params[:page])
     
     respond_with @matches
   end
